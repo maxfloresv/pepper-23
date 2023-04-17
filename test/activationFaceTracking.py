@@ -10,30 +10,8 @@ from uchile_states.interaction.states import SpeakGestures, Speak, Hear, Tell, N
 from uchile_states.head.states import StartFaceTracking
 from uchile_states.perception import wait_face_detection
 
-# Define el estado "WaitForMakiState" que espera a que se publique "Maki" en el topico "/phrase"
-class WaitForMakiState(smach.State):
-	def __init__(self):
-		smach.State.__init__(self, outcomes=['success', 'failure'], input_keys=['input_string'])
-		self.robot = robot
-
-	def execute(self, userdata):
-		FaceTracking = StartFaceTracking(self.robot)
-		status = FaceTracking.execute(userdata)
-
-		print(status)
-
-		rospy.loginfo('Esperando el string...')
-		input_string = rospy.wait_for_message('phrase', String)
-		input_string = str(input_string)
-		rospy.loginfo('Procesando el string: %s', input_string)
-
-		if 'Maki' in input_string or status == 'succeeded':
-		    	return 'success'
-		else:
-		    	return 'failure'
-
 class Speech(smach.State):
-	# todo: implementar sr de google
+	# to-do: implementar speech de google
 	def __init__(self):
 		smach.State.__init__(self, outcomes=['success', 'failure'], input_keys=['input_string'])
 
